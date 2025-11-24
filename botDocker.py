@@ -113,6 +113,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                    v, a, out_path,
                     vcodec='hevc_qsv',
                     acodec='aac',                      # or 'copy' if AAC encoder isn’t available
+                    map=['0:v:0', '0:a:0'],
                     **{
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
