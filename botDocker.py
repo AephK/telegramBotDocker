@@ -103,8 +103,6 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             v = (
                 inp.video
                 .filter('pad', 'ceil(iw/2)*2', 'ceil(ih/2)*2')  # make width/height even
-                .filter('format', 'nv12')
-                .filter('hwupload')
             )
 
             a = inp.audio  # take the audio stream unchanged (or add filters if you need)
@@ -120,12 +118,12 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         'b:a': f'{audioBitrate}k',
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
                         'bufsize': f'{finalMaxBitrate}k',
-                        'rc:v': 'vbr',
+                        'rc:v:0': 'vbr',
                         'look_ahead': '1',
                         'la_depth': '40'
                     }
                 )
-                .global_args('-y', '-init_hw_device', 'qsv=hw', '-filter_hw_device', 'hw')
+                .global_args('-y')
             )
 
             stream.run(overwrite_output=True)
