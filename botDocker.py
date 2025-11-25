@@ -114,7 +114,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         'bufsize': f'{finalMaxBitrate}k',
                         'rc:v': 'vbr',
                         'look_ahead': '1',
-                        'la_depth': '40'
+                        'look_ahead_depth': '40'
                     }
                 )
                 .global_args('-y')
@@ -194,5 +194,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
