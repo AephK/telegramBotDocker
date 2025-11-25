@@ -15,7 +15,7 @@ overhead = 0.80
 #get/set config
 cwd = os.getcwd() + '/'
 cookieFile = 'cookies.txt'
-deleteTemp = 'rm temp.*'
+deleteTemp = 'rm -f temp.*'
 scriptDir = cwd
 token = os.getenv("TELEGRAM_BOT_TOKEN")
 
@@ -193,6 +193,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
