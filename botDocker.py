@@ -106,13 +106,13 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                 .output(
                    v, a, out_path,
                     vcodec='hevc_qsv',
-                    acodec='aac',                      # or 'copy' if AAC encoder isn’t available
+                    acodec='aac',
+                    rc='vbr',
                     **{
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
                         'bufsize': f'{finalMaxBitrate}k',
-                        'rc': 'vbr',
                         'look_ahead': '1',
                         'look_ahead_depth': '40'
                     }
@@ -194,6 +194,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
