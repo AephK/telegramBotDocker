@@ -1,34 +1,18 @@
+FROM alpine:edge
 
-FROM ubuntu:24.04
-
-ENV DEBIAN_FRONTEND=noninteractive \
-    PYTHONDONTWRITEBYTECODE=1 \
+ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-
-
 # 1. Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl gnupg python3 python3-pip unzip\
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    curl gnupg python3 py3-pip unzip ca-certificates
 
-
-# Install minimal tools needed to add the repo
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl gnupg apt-transport-https ca-certificates\
- && rm -rf /var/lib/apt/lists/*
-
-# Add Jellyfin APT key and sources file
-RUN set -eux; \
-    curl -fsSL https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key \
-      | gpg --dearmor > /usr/share/keyrings/jellyfin.gpg; \
-    printf 'deb [signed-by=/usr/share/keyrings/jellyfin.gpg] https://repo.jellyfin.org/ubuntu noble main\n' \
-      > /etc/apt/sources.list.d/jellyfin.list
+# Add Jellyfin repository and key
+RUN sed -i 's/^#\(.*community.*\)/\1/' /etc/apk/repositories
+RUN apk update
 
 # Install jellyfin-ffmpeg6
-RUN apt-get update \
- && apt-get install -y --no-install-recommends jellyfin-ffmpeg6 \
- && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache jellyfin-ffmpeg
 
 #Install JS library for yt-dlp
 RUN curl -fsSL https://deno.land/install.sh | sh
