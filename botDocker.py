@@ -6,23 +6,16 @@ import yt_dlp, ffmpeg
 from telegram import ForceReply, Update
 from telegram.ext import CommandHandler, Application, ApplicationBuilder, ContextTypes
 
+#platform video size limit
 videoMaxSize = 10000 #max size in KB
-overhead = 0.80 #factor to reduce max size by to account for codec overheads
 
-if platform.system() == 'Linux':
-    cwd = os.getcwd() + '/'
-    cookieFile = 'cookies.txt'
-    deleteTemp = 'rm temp.*'
+#factor to reduce max size by to account for codec overheads
+overhead = 0.80
 
-elif platform.system():
-    cwd = os.getcwd() + '\\'
-    cookieFile = 'C:\\youtubedl\\cookies.txt'
-    deleteTemp = 'del temp.*'
-
-else:
-    print("Unable to determine OS version")
-    exit()
-
+#get/set config
+cwd = os.getcwd() + '/'
+cookieFile = 'cookies.txt'
+deleteTemp = 'rm temp.*'
 scriptDir = cwd
 token = os.getenv("TELEGRAM_BOT_TOKEN")
 
@@ -87,12 +80,13 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             sourceLength = float(ffmpeg.probe(cwd + "temp.temp")["format"]["duration"])
             #account for overhead, reduce max size
             finalMaxSize = (videoMaxSize * overhead)
+            #use 64kb/s fixed bitrate for audio
             audioBitrate=64
+            #get finalMaxBitrate using file's length (and convert to Bytes)
             finalMaxBitrate = (((finalMaxSize-audioBitrate)/(sourceLength))*8)
             videoBitrate = finalMaxBitrate
+            #if video birate is higher than 2MB/s, set to 2MB/s to avoid unnecessarily large files 
             videoBitrate = min(finalMaxBitrate, 2000)
-
-            print("videoBitrate: " + str(videoBitrate))
 
             in_path = os.path.join(cwd, 'temp.temp')
             out_path = os.path.join(cwd, 'temp.mp4')
@@ -128,7 +122,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
             stream.run(overwrite_output=True)
 
-
+        #if re-encoding failes, print error and try to send anyway
         except Exception as e:
             print(f"Error: {e}", flush=True)
             print("renaming temp to mp4")
@@ -200,4 +194,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
