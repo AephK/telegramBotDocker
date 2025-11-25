@@ -107,7 +107,6 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                    v, a, out_path,
                     vcodec='hevc_qsv',
                     acodec='aac',
-                    rc='vbr',
                     **{
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
@@ -194,6 +193,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
