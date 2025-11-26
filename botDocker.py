@@ -120,7 +120,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         'look_ahead_depth': '40'
                     }
                 )
-                .global_args('-y')
+                .global_args('-y', '-hwaccel', 'qsv', '-hwaccel_output_format', 'qsv')
             )
 
             stream.run(overwrite_output=True)
@@ -197,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
