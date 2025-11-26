@@ -96,7 +96,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
             v = (
                 inp.video
-                .filter('pad', 'ceil(iw/2)*2', 'ceil(ih/2)*2')  # make width/height even
+                .filter('pad', 'ceil(iw/2)*2', 'ceil(ih/2)*2')  #make width/height even
             )
 
             a = inp.audio  # take the audio stream unchanged (or add filters if you need)
@@ -193,6 +193,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
