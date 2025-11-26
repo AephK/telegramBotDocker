@@ -111,13 +111,12 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                    v, a, out_path,
                     vcodec='hevc_qsv',
                     acodec=f'{audioCodec}',
-                    global_quality=26,
                     **{
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
                         'bufsize': f'{bufsize}k',
-                        'look_ahead': '1',
+                        'rc': 'la',
                         'look_ahead_depth': '40'
                     }
                 )
@@ -198,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
