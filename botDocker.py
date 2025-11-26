@@ -9,6 +9,12 @@ from telegram.ext import CommandHandler, Application, ApplicationBuilder, Contex
 #platform video size limit
 videoMaxSize = 10000 #max size in KB
 
+#use fixed bitrate for audio
+audioBitrate=32
+
+#set audio codec
+audioCodec="libopus"
+
 #factor to reduce max size by to account for codec overheads
 overhead = 0.80
 
@@ -80,8 +86,6 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             sourceLength = float(ffmpeg.probe(cwd + "temp.temp")["format"]["duration"])
             #account for overhead, reduce max size
             finalMaxSize = (videoMaxSize * overhead)
-            #use 64kb/s fixed bitrate for audio
-            audioBitrate=64
             #get finalMaxBitrate using file's length (and convert to Bytes)
             finalMaxBitrate = (((finalMaxSize-audioBitrate)/(sourceLength))*8)
             videoBitrate = finalMaxBitrate
@@ -106,7 +110,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                 .output(
                    v, a, out_path,
                     vcodec='hevc_qsv',
-                    acodec='aac',
+                    acodec=f'{audioCodec}',
                     **{
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
@@ -193,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
