@@ -114,7 +114,6 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                     **{
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
-                        'rc': 'vbr',
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
                         'bufsize': f'{bufsize}k',
                         'look_ahead': '1',
@@ -198,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
