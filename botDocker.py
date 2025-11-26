@@ -7,9 +7,9 @@ from telegram import ForceReply, Update
 from telegram.ext import CommandHandler, Application, ApplicationBuilder, ContextTypes
 
 #platform video size limit
-videoMaxSize = 10000 #max size in KB
+videoMaxSize = 10000 #max size in Kb
 
-#use fixed bitrate for audio
+#use fixed bitrate for audio in Kb/s
 audioBitrate=32
 
 #set audio codec
@@ -87,9 +87,9 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             #account for overhead, reduce max size
             finalMaxSize = (videoMaxSize * overhead)
             #get finalMaxBitrate using file's length (and convert to Bytes)
-            finalMaxBitrate = (((finalMaxSize-audioBitrate)/(sourceLength))*8)
+            finalMaxBitrate = ((finalMaxSize-audioBitrate)/(sourceLength))
             videoBitrate = finalMaxBitrate
-            #if video birate is higher than 2MB/s, set to 2MB/s to avoid unnecessarily large files 
+            #if video birate is higher than 2Mb/s, set to 2Mb/s to avoid unnecessarily large files 
             videoBitrate = min(finalMaxBitrate, 2000)
 
             in_path = os.path.join(cwd, 'temp.temp')
@@ -115,7 +115,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
-                        'bufsize': f'{finalMaxBitrate}k',
+                        'bufsize': f'{bufsize}k',
                         'look_ahead': '1',
                         'look_ahead_depth': '40'
                     }
@@ -197,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
