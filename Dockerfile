@@ -5,7 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # 1. Install system dependencies
 RUN apk add --no-cache \
-    curl gnupg python3 py3-pip unzip ca-certificates
+    curl gnupg python3 py3-pip unzip ca-certificates nano
 
 # Add Jellyfin repository and key
 RUN sed -i 's/^#\(.*community.*\)/\1/' /etc/apk/repositories
