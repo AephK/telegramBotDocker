@@ -9,13 +9,15 @@ RUN apk add --no-cache \
 
 # Add Jellyfin repository and key
 RUN sed -i 's/^#\(.*community.*\)/\1/' /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update
 
 # Install jellyfin-ffmpeg6
 RUN apk add --no-cache jellyfin-ffmpeg
 
-# Install Intel Media Driver
+# Install Intel Media Drivers
 RUN apk add --no-cache intel-media-driver
+RUN apk add onevpl-intel-gpu --repository=http://dl-cdn.alpinelinux.org/alpine/edge/
 
 # Install JS library for yt-dlp
 RUN curl -fsSL https://deno.land/install.sh | sh
