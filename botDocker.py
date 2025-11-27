@@ -87,7 +87,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             #account for overhead, reduce max size
             finalMaxSize = (videoMaxSize * overhead)
             #get finalMaxBitrate using file's length (and convert to Bytes)
-            finalMaxBitrate = ((finalMaxSize-audioBitrate)/(sourceLength))
+            finalMaxBitrate = (((finalMaxSize-audioBitrate)/(sourceLength))*8)
             videoBitrate = finalMaxBitrate
             #if video birate is higher than 2Mb/s, set to 2Mb/s to avoid unnecessarily large files 
             videoBitrate = min(finalMaxBitrate, 2000)
@@ -197,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
