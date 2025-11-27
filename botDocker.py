@@ -15,6 +15,9 @@ audioBitrate=48
 #set audio codec
 audioCodec="libopus"
 
+#set video codec
+videoCodec="av1_qsv"
+
 #factor to reduce max size by to account for codec overheads
 overhead = 0.95
 
@@ -109,7 +112,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                ffmpeg
                 .output(
                    v, a, out_path,
-                    vcodec='hevc_qsv',
+                    vcodec=f'{videoCodec}',
                     acodec=f'{audioCodec}',
                     **{
                         'b:v': f'{videoBitrate}k',
@@ -197,6 +200,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
