@@ -14,7 +14,10 @@ RUN apk update
 # Install jellyfin-ffmpeg6
 RUN apk add --no-cache jellyfin-ffmpeg
 
-#Install JS library for yt-dlp
+# Install Intel Media Driver
+RUN apk add --no-cache intel-media-driver
+
+# Install JS library for yt-dlp
 RUN curl -fsSL https://deno.land/install.sh | sh
 
 # Symlink ffmpeg and ffprobe to PATH
