@@ -7,16 +7,16 @@ from telegram import ForceReply, Update
 from telegram.ext import CommandHandler, Application, ApplicationBuilder, ContextTypes
 
 #platform video size limit
-videoMaxSize = 10000000 #max size in bits
+videoMaxSize = 10000 #max size in Kb
 
-#use fixed bitrate for audio in b/s
-audioBitrate=32000
+#use fixed bitrate for audio in Kb/s
+audioBitrate=48
 
 #set audio codec
-audioCodec="libopus"
+audioCodec="aac"
 
 #factor to reduce max size by to account for codec overheads
-overhead = 0.80
+overhead = 0.95
 
 #get/set config
 cwd = os.getcwd() + '/'
@@ -90,7 +90,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             finalMaxBitrate = (((finalMaxSize-audioBitrate)/(sourceLength))*8)
             videoBitrate = finalMaxBitrate
             #if video birate is higher than 2Mb/s, set to 2Mb/s to avoid unnecessarily large files 
-            videoBitrate = min(finalMaxBitrate, 2000000)
+            videoBitrate = min(finalMaxBitrate, 2000)
 
             in_path = os.path.join(cwd, 'temp.temp')
             out_path = os.path.join(cwd, 'temp.mp4')
@@ -112,10 +112,10 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                     vcodec='hevc_qsv',
                     acodec=f'{audioCodec}',
                     **{
-                        'b:v': f'{videoBitrate}',
-                        'b:a': f'{audioBitrate}',
-                        'maxrate': f'{math.floor(finalMaxBitrate)}',
-                        'bufsize': f'{bufsize}',
+                        'b:v': f'{videoBitrate}k',
+                        'b:a': f'{audioBitrate}k',
+                        'maxrate': f'{math.floor(finalMaxBitrate)}k',
+                        'bufsize': f'{bufsize}k',
                         'extbrc': '1',
                         'look_ahead_depth': '40'
                     }
@@ -197,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
