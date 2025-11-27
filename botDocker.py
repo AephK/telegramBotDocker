@@ -13,7 +13,7 @@ videoMaxSize = 10000 #max size in Kb
 audioBitrate=48
 
 #set audio codec
-audioCodec="aac"
+audioCodec="libopus"
 
 #factor to reduce max size by to account for codec overheads
 overhead = 0.95
@@ -117,7 +117,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
                         'bufsize': f'{bufsize}k',
                         'extbrc': '1',
-                        'look_ahead_depth': '40'
+                        'look_ahead_depth': '80'
                     }
                 )
                 .global_args('-y', '-hwaccel', 'qsv', '-hwaccel_output_format', 'qsv')
@@ -197,6 +197,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
