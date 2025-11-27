@@ -118,9 +118,7 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         'b:v': f'{videoBitrate}k',
                         'b:a': f'{audioBitrate}k',
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
-                        'bufsize': f'{bufsize}k',
-                        'extbrc': '1',
-                        'look_ahead_depth': '80'
+                        'bufsize': f'{bufsize}k'
                     }
                 )
                 .global_args('-y', '-hwaccel', 'qsv', '-hwaccel_output_format', 'qsv')
@@ -200,6 +198,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
