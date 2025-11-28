@@ -120,7 +120,8 @@ async def v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         'maxrate': f'{math.floor(finalMaxBitrate)}k',
                         'bufsize': f'{bufsize}k',
                         'extbrc': '1',
-                        'look_ahead_depth': '80'
+                        'look_ahead_depth': '80',
+                        'vf': 'scale=1280:-1'
                     }
                 )
                 .global_args('-y', '-hwaccel', 'qsv', '-hwaccel_output_format', 'qsv')
@@ -200,6 +201,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
