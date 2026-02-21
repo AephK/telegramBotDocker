@@ -1,11 +1,11 @@
-FROM alpine@sha256:115729ec5cb049ba6359c3ab005ac742012d92bbaa5b8bc1a878f1e8f62c0cb8
+FROM alpine:3.22
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 # Install system dependencies
 RUN apk add --no-cache \
-    curl=8.17.0-r1 gnupg=2.4.8-r1 python3=3.12.12-r0 py3-pip=25.1.1-r1 unzip=6.0-r16 ca-certificates=20251003-r0 nano=8.7-r0
+    curl gnupg python3 py3-pip unzi ca-certificates nano
 
 # Add Jellyfin repository and key
 RUN sed -i 's/^#\(.*community.*\)/\1/' /etc/apk/repositories
@@ -13,11 +13,11 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
 RUN apk update
 
 # Install jellyfin-ffmpeg6
-RUN apk add --no-cache jellyfin-ffmpeg=7.1.2_p3-r0
+RUN apk add --no-cache jellyfin-ffmpeg
 
 # Install Intel Media Drivers
 RUN apk add --no-cache intel-media-driver
-RUN apk add onevpl-intel-gpu=25.3.4-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/
+RUN apk add onevpl-intel-gpu --repository=http://dl-cdn.alpinelinux.org/alpine/edge/
 
 # Install JS library for yt-dlp
 RUN curl -fsSL https://deno.land/install.sh | sh
